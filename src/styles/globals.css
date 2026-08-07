@@ -6,6 +6,7 @@
 
 html {
   min-inline-size: 320px;
+  scroll-padding-block-start: 96px;
   background: var(--color-bg-base);
   color: var(--color-text-primary);
   font-family: var(--font-body);
@@ -19,6 +20,10 @@ body {
   margin: 0;
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
+}
+
+#root {
+  min-block-size: 100vh;
 }
 
 button,
