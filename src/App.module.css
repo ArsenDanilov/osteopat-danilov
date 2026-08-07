@@ -1,0 +1,44 @@
+.shell {
+  display: grid;
+  min-block-size: 100svh;
+  place-items: center;
+  padding-block: var(--section-spacing);
+}
+
+.content {
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 var(--space-4);
+  color: var(--color-brand-primary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.12em;
+  line-height: var(--line-height-caption);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-h1);
+}
+
+.role {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lead);
+  line-height: var(--line-height-lead);
+}
+
+.note {
+  max-inline-size: var(--content-readable);
+  margin: var(--space-8) auto 0;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
