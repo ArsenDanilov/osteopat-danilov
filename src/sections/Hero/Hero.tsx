@@ -13,7 +13,7 @@ export function Hero() {
           </h1>
           <p className={styles.experience}>
             <span>Более 30 лет в медицине.</span>
-            <span>Остеопатическая практика с 2016 года.</span>
+            <span>Остеопатическая практика с 2014 года.</span>
           </p>
           <p className={styles.description}>
             Работаю со взрослыми, детьми и новорождёнными. На приёме учитываю

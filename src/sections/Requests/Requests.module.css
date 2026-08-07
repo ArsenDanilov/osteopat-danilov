@@ -1,0 +1,104 @@
+.requests {
+  padding-block: var(--section-spacing);
+  background: var(--color-bg-surface);
+}
+
+.title {
+  max-inline-size: 720px;
+  margin: 0 0 var(--space-16);
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-h2);
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: var(--space-8) minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-block-start: 1px solid var(--color-border-default);
+}
+
+.index {
+  padding-block-start: 3px;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.06em;
+  line-height: var(--line-height-caption);
+}
+
+.itemTitle,
+.itemNote {
+  margin: 0;
+}
+
+.itemTitle {
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-body-large);
+}
+
+.itemNote {
+  max-inline-size: 480px;
+  margin-block-start: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.prompt {
+  display: grid;
+  gap: var(--space-6);
+  margin-block-start: var(--space-8);
+  padding-block-start: var(--space-8);
+  border-block-start: 1px solid var(--color-border-strong);
+}
+
+.promptTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-h3);
+}
+
+.promptText {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+}
+
+.promptAction {
+  justify-self: start;
+}
+
+@media (max-width: 47.99rem) {
+  .title {
+    margin-block-end: var(--space-8);
+  }
+
+  .promptAction {
+    justify-self: stretch;
+  }
+}
+
+@media (min-width: 48rem) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-16);
+  }
+
+  .prompt {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+}
