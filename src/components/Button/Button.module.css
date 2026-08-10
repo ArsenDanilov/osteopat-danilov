@@ -27,18 +27,20 @@
   color: var(--color-text-inverse);
 }
 
-.primary:hover {
-  background: var(--color-brand-hover);
-}
-
 .secondary {
   border-color: var(--color-border-strong);
   background: transparent;
   color: var(--color-text-primary);
 }
 
-.secondary:hover {
-  border-color: var(--color-brand-primary);
-  background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover {
+    background: var(--color-brand-hover);
+  }
+
+  .secondary:hover {
+    border-color: var(--color-brand-primary);
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-hover);
+  }
 }

@@ -1,4 +1,5 @@
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
+import { lockPageScroll } from '../../utils/scrollLock'
 import styles from './DocumentLightbox.module.css'
 
 export interface LightboxDocument {
@@ -16,6 +17,7 @@ interface DocumentLightboxProps {
 
 export function DocumentLightbox({ item, onClose }: DocumentLightboxProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const [isClosing, setIsClosing] = useState(false)
   const titleId = useId()
 
   useEffect(() => {
@@ -23,29 +25,53 @@ export function DocumentLightbox({ item, onClose }: DocumentLightboxProps) {
 
     if (!dialog || !item || dialog.open) return
 
-    const root = document.documentElement
-    const previousOverflow = root.style.overflow
-
+    const unlockScroll = lockPageScroll()
     dialog.showModal()
-    root.style.overflow = 'hidden'
 
     return () => {
-      root.style.overflow = previousOverflow
-
       if (dialog.open) {
         dialog.close()
       }
+
+      unlockScroll()
     }
   }, [item])
+
+  function beginClose() {
+    if (!dialogRef.current?.open || isClosing) return
+
+    setIsClosing(true)
+  }
 
   return (
     <dialog
       aria-labelledby={item ? titleId : undefined}
-      className={styles.dialog}
-      onClose={onClose}
+      className={`${styles.dialog} ${isClosing ? styles.closing : ''}`}
+      onCancel={(event) => {
+        event.preventDefault()
+        beginClose()
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          beginClose()
+        }
+      }}
       onKeyDown={(event) => {
         if (event.key === 'Escape') {
           event.preventDefault()
+          beginClose()
+        }
+      }}
+      onClose={() => {
+        setIsClosing(false)
+        onClose()
+      }}
+      onTransitionEnd={(event) => {
+        if (
+          event.target === event.currentTarget &&
+          event.propertyName === 'opacity' &&
+          isClosing
+        ) {
           dialogRef.current?.close()
         }
       }}
@@ -60,7 +86,7 @@ export function DocumentLightbox({ item, onClose }: DocumentLightboxProps) {
             <button
               autoFocus
               className={styles.closeButton}
-              onClick={() => dialogRef.current?.close()}
+              onClick={beginClose}
               type="button"
             >
               Закрыть

@@ -1,0 +1,248 @@
+.reviews {
+  padding-block: var(--section-spacing);
+  background: var(--color-bg-surface);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-h2);
+}
+
+.navigation {
+  display: flex;
+  grid-row: 3;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.counter {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.06em;
+  line-height: var(--line-height-small);
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.controlButton {
+  display: inline-flex;
+  inline-size: 44px;
+  block-size: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    opacity var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
+}
+
+.controlButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.controlButton:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.controlIcon {
+  inline-size: 18px;
+  block-size: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.reviewStage {
+  display: grid;
+  grid-row: 2;
+  min-inline-size: 0;
+}
+
+.review {
+  grid-area: 1 / 1;
+  max-inline-size: 820px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.activeReview {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.previousReview {
+  visibility: visible;
+}
+
+.reviewText {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  line-height: 29px;
+  white-space: pre-line;
+}
+
+.attribution {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+  margin-block-start: var(--space-8);
+}
+
+.author {
+  font-size: var(--font-size-ui);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-ui);
+}
+
+.source {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-small);
+}
+
+.source a {
+  text-decoration-color: transparent;
+  transition:
+    color var(--motion-fast) var(--ease-out),
+    text-decoration-color var(--motion-fast) var(--ease-out);
+}
+
+.enterNext {
+  animation: review-enter-next var(--motion-slow) var(--ease-out) both;
+}
+
+.enterPrevious {
+  animation: review-enter-previous var(--motion-slow) var(--ease-out) both;
+}
+
+.exitNext {
+  animation: review-exit-next var(--motion-slow) var(--ease-out) both;
+}
+
+.exitPrevious {
+  animation: review-exit-previous var(--motion-slow) var(--ease-out) both;
+}
+
+@keyframes review-enter-next {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes review-enter-previous {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes review-exit-next {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+@keyframes review-exit-previous {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .controlButton:hover:not(:disabled) {
+    border-color: var(--color-brand-primary);
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-hover);
+  }
+
+  .source a:hover {
+    color: var(--color-brand-primary);
+    text-decoration-color: currentColor;
+  }
+}
+
+@media (min-width: 48rem) {
+  .reviewText {
+    font-size: 20px;
+    line-height: 32px;
+  }
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.55fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(var(--space-16), 7vw, var(--space-30));
+  }
+
+  .title {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .navigation {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: start;
+    justify-content: flex-start;
+    margin-block-start: var(--space-12);
+  }
+
+  .reviewStage {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
+}

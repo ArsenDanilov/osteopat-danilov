@@ -168,7 +168,14 @@ export function Education() {
       Math.max(0, currentIndex + direction),
     )
 
-    slider.scrollTo({ behavior: 'smooth', left: positions[targetIndex] })
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    slider.scrollTo({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      left: positions[targetIndex],
+    })
   }
 
   function openDocument(

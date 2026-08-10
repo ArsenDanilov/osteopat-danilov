@@ -6,6 +6,7 @@
 
 html {
   min-inline-size: 320px;
+  scrollbar-gutter: stable;
   scroll-padding-block-start: 96px;
   background: var(--color-bg-base);
   color: var(--color-text-primary);
