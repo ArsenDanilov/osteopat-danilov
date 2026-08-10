@@ -55,6 +55,8 @@
 }
 
 .details {
+  display: grid;
+  gap: var(--space-1);
   margin: var(--space-8) 0 0;
   color: var(--color-text-tertiary);
   font-size: var(--font-size-small);

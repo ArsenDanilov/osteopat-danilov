@@ -24,7 +24,10 @@ export function Hero() {
             <ContactMethodSelector label="Записаться на приём" />
             <ContactMethodSelector label="Задать вопрос" variant="secondary" />
           </div>
-          <p className={styles.details}>м. Таганская · 10 000 ₽ · 45 минут</p>
+          <p className={styles.details}>
+            <span>Москва, ул. Верхняя Радищевская, 16с2</span>
+            <span>7 минут пешком от м. Таганская · 10 000 ₽ · 45 минут</span>
+          </p>
         </div>
 
         <figure className={styles.portraitFrame}>
