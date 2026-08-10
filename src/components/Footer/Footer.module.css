@@ -1,0 +1,77 @@
+.footer {
+  padding-block: var(--space-8);
+  border-block-start: 1px solid var(--color-border-default);
+  background: var(--color-bg-base);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.brand {
+  display: inline-flex;
+  justify-self: start;
+  flex-direction: column;
+  text-decoration: none;
+  transition: color var(--motion-fast) var(--ease-out);
+}
+
+.brandName {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: var(--font-weight-medium);
+  line-height: 26px;
+}
+
+.brandDescriptor {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+}
+
+.links a {
+  display: inline-flex;
+  min-block-size: 44px;
+  align-items: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-small);
+  text-decoration-color: transparent;
+  transition:
+    color var(--motion-fast) var(--ease-out),
+    text-decoration-color var(--motion-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover,
+  .links a:hover {
+    color: var(--color-brand-primary);
+  }
+
+  .links a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+@media (min-width: 48rem) {
+  .footer {
+    padding-block: var(--space-12);
+  }
+
+  .inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .links {
+    justify-content: flex-end;
+  }
+}

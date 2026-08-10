@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styles from './FAQ.module.css'
 
 const faqItems = [
@@ -33,6 +34,22 @@ const faqItems = [
 ] as const
 
 export function FAQ() {
+  const [openItems, setOpenItems] = useState<Set<number>>(() => new Set())
+
+  function toggleItem(index: number) {
+    setOpenItems((currentItems) => {
+      const nextItems = new Set(currentItems)
+
+      if (nextItems.has(index)) {
+        nextItems.delete(index)
+      } else {
+        nextItems.add(index)
+      }
+
+      return nextItems
+    })
+  }
+
   return (
     <section aria-labelledby="faq-title" className={styles.faq} id="faq">
       <div className={`container ${styles.layout}`}>
@@ -41,17 +58,35 @@ export function FAQ() {
         </h2>
 
         <div className={styles.items}>
-          {faqItems.map((item) => (
-            <details className={styles.item} key={item.question}>
-              <summary className={styles.question}>
-                <span>{item.question}</span>
-                <span aria-hidden="true" className={styles.icon} />
-              </summary>
-              <div className={styles.answer}>
-                <p>{item.answer}</p>
+          {faqItems.map((item, index) => {
+            const isOpen = openItems.has(index)
+            const answerId = `faq-answer-${index + 1}`
+
+            return (
+              <div className={styles.item} key={item.question}>
+                <button
+                  aria-controls={answerId}
+                  aria-expanded={isOpen}
+                  className={styles.question}
+                  onClick={() => toggleItem(index)}
+                  type="button"
+                >
+                  <span>{item.question}</span>
+                  <span aria-hidden="true" className={styles.icon} />
+                </button>
+                <div
+                  aria-hidden={!isOpen}
+                  className={`${styles.answer} ${isOpen ? styles.answerOpen : ''}`}
+                  id={answerId}
+                  inert={!isOpen}
+                >
+                  <div className={styles.answerInner}>
+                    <p>{item.answer}</p>
+                  </div>
+                </div>
               </div>
-            </details>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

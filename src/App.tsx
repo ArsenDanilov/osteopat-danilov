@@ -1,4 +1,5 @@
 import { Header } from './components/Header/Header'
+import { Footer } from './components/Footer/Footer'
 import { About } from './sections/About/About'
 import { Approach } from './sections/Approach/Approach'
 import { Education } from './sections/Education/Education'
@@ -24,6 +25,7 @@ function App() {
         <Visit />
         <FAQ />
       </main>
+      <Footer />
     </>
   )
 }
