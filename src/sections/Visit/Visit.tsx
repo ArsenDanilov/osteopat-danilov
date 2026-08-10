@@ -1,4 +1,3 @@
-import { contactDetails } from '../../config/contact'
 import styles from './Visit.module.css'
 
 const practicalFacts = [
@@ -15,12 +14,6 @@ const practicalFacts = [
     value: 'Москва, ул. Верхняя Радищевская, 16с2',
     note: '7 минут пешком от м. Таганская, кольцевая линия',
   },
-] as const
-
-const contactMethods = [
-  contactDetails.phone,
-  contactDetails.telegram,
-  contactDetails.whatsapp,
 ] as const
 
 export function Visit() {
@@ -45,26 +38,6 @@ export function Visit() {
               </div>
             ))}
           </dl>
-
-          <div className={styles.contacts}>
-            <p className={styles.contactsLabel}>Связаться и записаться</p>
-            <div className={styles.contactLinks}>
-              {contactMethods.map((method) => (
-                <a
-                  className={styles.contactLink}
-                  href={method.href}
-                  key={method.href}
-                >
-                  <span>{method.label}</span>
-                  {'display' in method && (
-                    <span className={styles.contactDetail}>
-                      {method.display}
-                    </span>
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
