@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { lockPageScroll } from '../../utils/scrollLock'
 import { ContactMethodSelector } from '../ContactMethodSelector/ContactMethodSelector'
 import styles from './Header.module.css'
 
@@ -12,54 +13,35 @@ const navigationItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuMounted, setIsMenuMounted] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    if (!isMenuOpen) return
+    if (!isMenuMounted) return
 
     const mobileMedia = window.matchMedia('(max-width: 71.99rem)')
-    let restoreScroll = () => undefined
+    let unlockScroll: () => void = () => undefined
 
     function syncScrollLock() {
-      restoreScroll()
-      restoreScroll = () => undefined
+      unlockScroll()
+      unlockScroll = () => undefined
 
       if (!mobileMedia.matches) return
 
-      const root = document.documentElement
-      const body = document.body
-      const previousRootOverflow = root.style.overflow
-      const previousBodyOverflow = body.style.overflow
-      const previousBodyPadding = body.style.paddingInlineEnd
-      const previousBodyPosition = body.style.position
-      const previousBodyTop = body.style.top
-      const previousBodyInlineSize = body.style.inlineSize
-      const scrollbarWidth = window.innerWidth - root.clientWidth
-      const scrollPosition = window.scrollY
-      const bodyPadding = Number.parseFloat(
-        window.getComputedStyle(body).paddingInlineEnd,
-      )
-
-      root.style.overflow = 'hidden'
-      body.style.overflow = 'hidden'
-      body.style.position = 'fixed'
-      body.style.top = `-${scrollPosition}px`
-      body.style.inlineSize = '100%'
-
-      if (scrollbarWidth > 0) {
-        body.style.paddingInlineEnd = `${bodyPadding + scrollbarWidth}px`
-      }
-
-      restoreScroll = () => {
-        root.style.overflow = previousRootOverflow
-        body.style.overflow = previousBodyOverflow
-        body.style.paddingInlineEnd = previousBodyPadding
-        body.style.position = previousBodyPosition
-        body.style.top = previousBodyTop
-        body.style.inlineSize = previousBodyInlineSize
-        window.scrollTo(0, scrollPosition)
-      }
+      unlockScroll = lockPageScroll()
     }
+
+    syncScrollLock()
+    mobileMedia.addEventListener('change', syncScrollLock)
+
+    return () => {
+      unlockScroll()
+      mobileMedia.removeEventListener('change', syncScrollLock)
+    }
+  }, [isMenuMounted])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
@@ -68,19 +50,26 @@ export function Header() {
       }
     }
 
-    syncScrollLock()
-    mobileMedia.addEventListener('change', syncScrollLock)
     document.addEventListener('keydown', handleKeyDown)
 
-    return () => {
-      restoreScroll()
-      mobileMedia.removeEventListener('change', syncScrollLock)
-      document.removeEventListener('keydown', handleKeyDown)
-    }
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isMenuOpen])
 
+  function openMenu() {
+    setIsMenuMounted(true)
+    setIsMenuOpen(true)
+  }
+
+  function closeMenu(options?: { restoreFocus?: boolean }) {
+    setIsMenuOpen(false)
+
+    if (options?.restoreFocus !== false) {
+      menuButtonRef.current?.focus()
+    }
+  }
+
   return (
-    <header className={`${styles.header} ${isMenuOpen ? styles.menuOpen : ''}`}>
+    <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <a
           className={styles.brand}
@@ -110,7 +99,7 @@ export function Header() {
           aria-expanded={isMenuOpen}
           aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
           className={styles.menuButton}
-          onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+          onClick={() => (isMenuOpen ? closeMenu() : openMenu())}
           ref={menuButtonRef}
           type="button"
         >
@@ -121,11 +110,22 @@ export function Header() {
         </button>
       </div>
 
-      {isMenuOpen && (
+      {isMenuMounted && (
         <nav
           aria-label="Мобильная навигация"
-          className={styles.mobileNav}
+          aria-hidden={!isMenuOpen}
+          className={`${styles.mobileNav} ${isMenuOpen ? styles.mobileNavOpen : ''}`}
           id="mobile-navigation"
+          inert={!isMenuOpen}
+          onTransitionEnd={(event) => {
+            if (
+              event.target === event.currentTarget &&
+              event.propertyName === 'opacity' &&
+              !isMenuOpen
+            ) {
+              setIsMenuMounted(false)
+            }
+          }}
         >
           <div className={`container ${styles.mobileNavInner}`}>
             <div className={styles.mobileLinks}>
@@ -134,8 +134,9 @@ export function Header() {
                   href={item.href}
                   key={item.href}
                   onClick={() => {
-                    setIsMenuOpen(false)
-                    menuButtonRef.current?.focus()
+                    closeMenu({
+                      restoreFocus: false,
+                    })
                   }}
                 >
                   {item.label}

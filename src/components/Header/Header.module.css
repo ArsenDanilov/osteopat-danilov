@@ -21,6 +21,7 @@
   min-inline-size: 0;
   flex-direction: column;
   text-decoration: none;
+  transition: color var(--motion-fast) var(--ease-out);
 }
 
 .brandName {
@@ -58,11 +59,15 @@
   background: transparent;
   color: var(--color-text-primary);
   cursor: pointer;
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
 }
 
-.menuButton:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-bg-subtle);
+.menuButton:active {
+  transform: translateY(1px);
 }
 
 .menuIcon {
@@ -96,6 +101,25 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--color-bg-base);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--motion-base) var(--ease-out),
+    transform var(--motion-base) var(--ease-out);
+}
+
+.mobileNavOpen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@starting-style {
+  .mobileNavOpen {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 }
 
 .mobileNavInner {
@@ -114,23 +138,16 @@
   font-size: var(--font-size-ui);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
+  transition: color var(--motion-fast) var(--ease-out);
 }
 
-.mobileLinks a:hover {
-  color: var(--color-brand-primary);
+.mobileLinks a:active {
+  color: var(--color-brand-hover);
 }
 
 .mobileAction {
   display: flex;
   margin-block-start: var(--space-4);
-}
-
-@media (max-width: 71.99rem) {
-  .menuOpen {
-    position: fixed;
-    right: 0;
-    left: 0;
-  }
 }
 
 @media (min-width: 48rem) {
@@ -185,5 +202,17 @@
   .menuButton,
   .mobileNav {
     display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover,
+  .mobileLinks a:hover {
+    color: var(--color-brand-primary);
+  }
+
+  .menuButton:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-bg-subtle);
   }
 }

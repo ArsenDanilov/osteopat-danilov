@@ -17,6 +17,7 @@ export function ContactMethodSelector({
   className,
 }: ContactMethodSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const panelId = useId()
   const headingId = useId()
   const rootRef = useRef<HTMLDivElement>(null)
@@ -58,6 +59,16 @@ export function ContactMethodSelector({
     triggerRef.current?.focus()
   }
 
+  function toggleSelector() {
+    if (isOpen) {
+      closeAndRestoreFocus()
+      return
+    }
+
+    setIsMounted(true)
+    setIsOpen(true)
+  }
+
   const rootClasses = [styles.root, styles[align], className]
     .filter(Boolean)
     .join(' ')
@@ -67,25 +78,38 @@ export function ContactMethodSelector({
       <Button
         aria-controls={panelId}
         aria-expanded={isOpen}
-        onClick={() => setIsOpen((isCurrentlyOpen) => !isCurrentlyOpen)}
+        onClick={toggleSelector}
         ref={triggerRef}
         variant={variant}
       >
         {label}
       </Button>
 
-      {isOpen && (
+      {isMounted && (
         <>
           <button
             aria-label="Закрыть выбор способа связи"
-            className={styles.backdrop}
+            aria-hidden={!isOpen}
+            className={`${styles.backdrop} ${isOpen ? styles.backdropOpen : ''}`}
+            inert={!isOpen}
             onClick={closeAndRestoreFocus}
             type="button"
           />
           <div
             aria-labelledby={headingId}
-            className={styles.panel}
+            aria-hidden={!isOpen}
+            className={`${styles.panel} ${isOpen ? styles.panelOpen : ''}`}
             id={panelId}
+            inert={!isOpen}
+            onTransitionEnd={(event) => {
+              if (
+                event.target === event.currentTarget &&
+                event.propertyName === 'opacity' &&
+                !isOpen
+              ) {
+                setIsMounted(false)
+              }
+            }}
             role="group"
           >
             <div className={styles.headingRow}>

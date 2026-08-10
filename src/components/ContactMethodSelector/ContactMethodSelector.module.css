@@ -14,6 +14,25 @@
   background: var(--color-bg-surface);
   box-shadow: 0 12px 30px
     color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition:
+    opacity var(--motion-base) var(--ease-out),
+    transform var(--motion-base) var(--ease-out);
+}
+
+.panelOpen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@starting-style {
+  .panelOpen {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
 }
 
 .start .panel {
@@ -55,11 +74,14 @@
   cursor: pointer;
   font-size: 24px;
   line-height: 1;
+  transition:
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
 }
 
-.closeButton:hover {
-  background: var(--color-bg-subtle);
-  color: var(--color-text-primary);
+.closeButton:active {
+  transform: translateY(1px);
 }
 
 .links {
@@ -81,11 +103,6 @@
   transition:
     background-color var(--motion-fast) var(--ease-out),
     color var(--motion-fast) var(--ease-out);
-}
-
-.contactLink:hover {
-  background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
 }
 
 .contactDetail {
@@ -114,6 +131,14 @@
     border: 0;
     background: color-mix(in srgb, var(--color-text-primary) 32%, transparent);
     cursor: default;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--motion-base) var(--ease-out);
+  }
+
+  .backdropOpen {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .panel,
@@ -133,6 +158,26 @@
     border-radius: var(--radius-modal) var(--radius-modal) 0 0;
     box-shadow: 0 -12px 32px
       color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+    transform: translateY(16px);
+  }
+
+  .panelOpen,
+  .start .panelOpen,
+  .end .panelOpen {
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .panelOpen,
+    .start .panelOpen,
+    .end .panelOpen {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .backdropOpen {
+      opacity: 0;
+    }
   }
 
   .heading {
@@ -145,5 +190,17 @@
   .contactLink {
     min-block-size: 56px;
     padding-inline: var(--space-4);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .closeButton:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-primary);
+  }
+
+  .contactLink:hover {
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-hover);
   }
 }

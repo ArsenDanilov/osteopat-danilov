@@ -8,10 +8,48 @@
   border-radius: var(--radius-modal);
   background: var(--color-bg-surface);
   color: var(--color-text-primary);
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity var(--motion-base) var(--ease-out),
+    transform var(--motion-base) var(--ease-out);
+}
+
+.dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dialog.closing {
+  opacity: 0;
+  transform: scale(0.985);
+}
+
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: scale(0.985);
+  }
 }
 
 .dialog::backdrop {
   background: color-mix(in srgb, var(--color-text-primary) 72%, transparent);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-out);
+}
+
+.dialog[open]::backdrop {
+  opacity: 1;
+}
+
+.dialog.closing::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 .content {
@@ -51,12 +89,23 @@
   cursor: pointer;
   font-size: var(--font-size-ui);
   font-weight: var(--font-weight-semibold);
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
 }
 
-.closeButton:hover {
-  border-color: var(--color-brand-primary);
-  background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
+.closeButton:active {
+  transform: translateY(1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .closeButton:hover {
+    border-color: var(--color-brand-primary);
+    background: var(--color-brand-subtle);
+    color: var(--color-brand-hover);
+  }
 }
 
 .figure {
