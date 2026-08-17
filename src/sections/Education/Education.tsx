@@ -245,7 +245,7 @@ export function Education() {
           {documents.map((item) => (
             <li className={styles.slide} key={item.id}>
               <button
-                aria-label={`Открыть документ: ${item.title}`}
+                aria-label={`${item.institution}. Открыть документ: ${item.title}`}
                 className={styles.documentButton}
                 onClick={(event) => openDocument(item, event)}
                 type="button"

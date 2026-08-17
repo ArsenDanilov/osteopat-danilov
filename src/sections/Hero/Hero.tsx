@@ -34,7 +34,10 @@ export function Hero() {
           <img
             alt="Дмитрий Данилов, врач-остеопат"
             className={styles.portrait}
+            decoding="async"
+            fetchPriority="high"
             height="500"
+            loading="eager"
             src={portrait}
             width="500"
           />
