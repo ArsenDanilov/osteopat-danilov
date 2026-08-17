@@ -71,11 +71,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <a
-          className={styles.brand}
-          href="#top"
-          aria-label="Дмитрий Данилов — к началу страницы"
-        >
+        <a className={styles.brand} href="#top">
           <span className={styles.brandName}>Дмитрий Данилов</span>
           <span className={styles.brandDescriptor}>Врач-остеопат</span>
         </a>

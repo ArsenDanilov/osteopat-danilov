@@ -11,11 +11,7 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
-        <a
-          aria-label="Дмитрий Данилов — к началу страницы"
-          className={styles.brand}
-          href="#top"
-        >
+        <a className={styles.brand} href="#top">
           <span className={styles.brandName}>Дмитрий Данилов</span>
           <span className={styles.brandDescriptor}>Врач-остеопат</span>
         </a>

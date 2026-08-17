@@ -4,7 +4,8 @@ Personal website of osteopathic physician Dmitry Danilov.
 
 ## Status
 
-Frontend foundation is complete. Page sections and production content have not been implemented yet.
+The production one-page website is implemented. The temporary Hero portrait
+must be replaced with the final approved portrait before public launch.
 
 ## Stack
 
